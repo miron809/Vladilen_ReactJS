@@ -37,8 +37,10 @@ class App extends Component {
     this.setState({ cars });
   };
 
-  onDelete() {
-    console.log("onDelete");
+  onDelete(i) {
+    let cars = this.state.cars.concat();
+    cars = cars.filter((car) => cars.indexOf(car) !== i);
+    this.setState({ cars });
   }
 
   render() {
