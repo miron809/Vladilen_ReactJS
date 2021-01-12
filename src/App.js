@@ -37,7 +37,9 @@ class App extends Component {
     this.setState({ cars });
   };
 
-  onDelete() {}
+  onDelete() {
+    console.log("onDelete");
+  }
 
   render() {
     const divStyle = {
