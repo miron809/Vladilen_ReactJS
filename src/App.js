@@ -37,11 +37,7 @@ class App extends Component {
     this.setState({ cars });
   };
 
-  onDelete(i) {
-    let cars = this.state.cars.concat();
-    cars = cars.filter((car) => cars.indexOf(car) !== i);
-    this.setState({ cars });
-  }
+  onDelete() {}
 
   render() {
     const divStyle = {
@@ -72,23 +68,14 @@ class App extends Component {
 
         <button onClick={this.toggleCarsView}>Toggle Cars</button>
 
-        {cars}
-
-        {/* <Car
-          name={cars[0].name}
-          year={cars[0].year}
-          onChangeTitle={this.changeTitle.bind(this, cars[0].name)}
-        /> */}
-        {/* <Car
-          name={cars[1].name}
-          year={cars[1].year}
-          onChangeTitle={() => this.changeTitle(cars[1].name)}
-        />
-        <Car
-          name={cars[2].name}
-          year={cars[2].year}
-          onChangeTitle={() => this.changeTitle(cars[2].name)}
-        /> */}
+        <div
+          style={{
+            width: "400px",
+            margin: "auto"
+          }}
+        >
+          {cars}
+        </div>
       </div>
     );
   }
