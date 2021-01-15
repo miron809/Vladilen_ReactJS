@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import "./styles.scss";
 import Car from "./Car/Car";
+import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
+import Counter from "./Counter/Counter";
+
+export const ClickedContext = React.createContext(false);
 
 class App extends Component {
   state = {
@@ -37,7 +41,11 @@ class App extends Component {
     this.setState({ cars });
   };
 
-  onDelete() {}
+  onDelete(i) {
+    let cars = this.state.cars.concat();
+    cars = cars.filter((car) => cars.indexOf(car) !== i);
+    this.setState({ cars });
+  }
 
   render() {
     const divStyle = {
@@ -49,19 +57,29 @@ class App extends Component {
     if (this.state.showCars) {
       cars = this.state.cars.map((car, i) => {
         return (
-          <Car
-            key={i}
-            name={car.name}
-            year={car.year}
-            onChangeName={(e) => this.onChangeName(e.target.value, i)}
-            onDelete={this.onDelete.bind(this, i)}
-          />
+          <ErrorBoundary key={i}>
+            <Car
+              name={car.name}
+              year={car.year}
+              index={i}
+              onChangeName={(e) => this.onChangeName(e.target.value, i)}
+              onDelete={this.onDelete.bind(this, i)}
+            />
+          </ErrorBoundary>
         );
       });
     }
 
     return (
       <div style={divStyle}>
+        <ClickedContext.Provider value={this.state.clicked}>
+          <Counter />
+        </ClickedContext.Provider>
+
+        <button onClick={() => this.setState({ clicked: true })}>
+          Change clicked
+        </button>
+
         <h1>{this.state.pageTitle}</h1>
 
         <input onChange={this.handleInput} type="text" />

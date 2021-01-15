@@ -1,38 +1,50 @@
-import React from "react";
-import Radium from "radium";
+import React, { Component } from "react";
 import "./Car.scss";
+import withClass from "../hoc/withClass";
+import propTypes from "prop-types";
 
-const Car = (props) => {
-  const inputClasses = ["input"];
+class Car extends Component {
+  constructor(props) {
+    super(props);
 
-  props.name ? inputClasses.push("green") : inputClasses.push("red");
-  props.name.length > 4 && inputClasses.push("bold");
+    this.inputRef = React.createRef();
+  }
 
-  const style = {
-    border: "1px solid #ccc",
-    boxShadow: "0 4px 5px 0 rgba(0, 0, 0, 0.14)",
-    ":hover": {
-      border: "1px solid #aaa",
-      boxShadow: "0 4px 15px 0 rgba(0,0,0,0.25)",
-      cursor: "pointer"
-    }
-  };
+  componentDidMount() {
+    // this.props.index === 1 && this.inputRef.current.focus();
+  }
 
-  return (
-    <div className="Car" style={style}>
-      <h3>Сar name: {props.name}</h3>
-      <p>
-        Year: <strong>{props.year}</strong>
-      </p>
-      <input
-        className={inputClasses.join(" ")}
-        value={props.name}
-        type="text"
-        onChange={props.onChangeName}
-      />
-      <button onClick={props.onDelete}>Delete</button>
-    </div>
-  );
+  render() {
+    const inputClasses = ["input"];
+
+    this.props.name ? inputClasses.push("green") : inputClasses.push("red");
+    this.props.name.length > 4 && inputClasses.push("bold");
+
+    return (
+      <React.Fragment>
+        <h3>Сar name: {this.props.name}</h3>
+        <p>
+          Year: <strong>{this.props.year}</strong>
+        </p>
+        <input
+          ref={this.inputRef}
+          className={inputClasses.join(" ")}
+          value={this.props.name}
+          type="text"
+          onChange={this.props.onChangeName}
+        />
+        <button onClick={this.props.onDelete}>Delete</button>
+      </React.Fragment>
+    );
+  }
+}
+
+Car.propTypes = {
+  name: propTypes.string.isRequired,
+  year: propTypes.number,
+  onChangeName: propTypes.func,
+  onDelete: propTypes.func
 };
 
-export default Radium(Car);
+// export default Car;
+export default withClass(Car, "Car");
